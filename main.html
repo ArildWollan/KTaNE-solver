@@ -1,0 +1,305 @@
+<html lang="en">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="./public/stylesheets/styles.css">
+</head>
+<body>
+
+    <div class="app">
+        <div class="container">
+            <div class="bomb-info">
+                <h1>Bomb info</h1>
+                <div class="row">
+                    <div class="col">
+                        <div class="even-serial">
+                            <h2>Serial ending</h1>
+                            <div class="even-setting" v-bind:class="{'active':evenSerial}" @click="changeEvenSerial"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="serial-vowel">
+                            <h2>Serial vowel</h1>
+                            <div class="vowel-setting" v-bind:class="{'active':vowel}" @click="changeSerialVowel"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="parallel">
+                            <h2>Parallel port</h1>
+                            <div class="parallel-setting" v-bind:class="{'active':parallel}" @click="changeParallel"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="batteries">
+                            <h2>Batteries</h1>
+                            <button class="btn battery-button batteries-zero" v-bind:class="{'btn-success':batteries==0}" @click="setBatteries(0)">0 batteries</button>
+                            <button class="btn battery-button batteries-one" v-bind:class="{'btn-success':batteries==1}" @click="setBatteries(1)">1 battery</button>
+                            <button class="btn battery-button batteries-two" v-bind:class="{'btn-success':batteries==2}" @click="setBatteries(2)">2 batteries</button>
+                            <button class="btn battery-button batteries-three" v-bind:class="{'btn-success':batteries==3}" @click="setBatteries(3)">3 batteries</button>
+                            <button class="btn battery-button batteries-four" v-bind:class="{'btn-success':batteries==4}" @click="setBatteries(4)">4+ batteries</button>
+                        </div>        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="password">
+                        <div class="row">
+                            <div class="col">
+                                <h1>Password <button class="btn btn-info" @click="clearPassword">Clear</button></h1>
+                                <div class="inputs">
+                                    <input type="text" placeholder="First characters" class="" v-model="letterHolder[0]"/>
+                                    <input type="text" placeholder="Second characters" class="" v-model="letterHolder[1]"/>
+                                    <input type="text" placeholder="Third characters" class="" v-model="letterHolder[2]"/>
+                                    <input type="text" placeholder="Forth characters" class="" v-model="letterHolder[3]"/>
+                                    <input type="text" placeholder="Fifth characters" class="" v-model="letterHolder[4]"/>
+                                    
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="output">
+                                    <h3>Possible solutions:</h3>
+                                    <ul class="solutions">
+                                        <li v-for="word in possibleWords">{{word.toUpperCase()}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>                    
+                </div>
+                <div class="col">
+                    <div class="complicated-wires">
+                        <h1>Complicated wires</h1>
+                        <div class="alert alert-info">Update Bomb info first!</div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="inputs">
+                                    <div class="light" v-bind:class="{'active':light}" @click="changeLight"></div>
+                                    <div class="wire" v-bind:class="[wires[currentWire]]" @click="changeWire"></div>
+                                    <div class="star" v-bind:class="{'active':star}" @Click="changeStar"></div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="output">
+                                    <div v-show="wireCut" class="alert alert-success cut-wire">Cut it!</div>
+                                    <div v-show="!wireCut" class="alert alert-danger no-cut-wire">Don't cut it!</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 15px;">
+                <div class="col">
+                    <div class="sequence">
+                        <h1>Sequence <button class="btn btn-info" @click="clearSequence">Clear</button></h1>
+                        
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th @click="addSequenceRed"><button class="btn">Red ++</button></th>
+                                    <th @click="addSequenceBlue"><button class="btn">Blue ++</button></th>
+                                    <th @click="addSequenceBlack"><button class="btn">Black ++</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td v-bind:class={'active':sequenceRed==0}>C</td>
+                                    <td v-bind:class={'active':sequenceBlue==0}>B</td>
+                                    <td v-bind:class={'active':sequenceBlack==0}>A, B, C</td>
+                                </tr>
+                                <tr>
+                                    <td v-bind:class={'active':sequenceRed==1}>B</td>
+                                    <td v-bind:class={'active':sequenceBlue==1}>A, C</td>
+                                    <td v-bind:class={'active':sequenceBlack==1}>A, C</td>
+                                </tr>
+                                <tr>
+                                    <td v-bind:class={'active':sequenceRed==2}>A</td>
+                                    <td v-bind:class={'active':sequenceBlue==2}>B</td>
+                                    <td v-bind:class={'active':sequenceBlack==2}>B</td>
+                                </tr>
+                                <tr>
+                                    <td v-bind:class={'active':sequenceRed==3}>A, C</td>
+                                    <td v-bind:class={'active':sequenceBlue==3}>A</td>
+                                    <td v-bind:class={'active':sequenceBlack==3}>A,C</td>
+                                </tr>
+                                <tr>
+                                    <td v-bind:class={'active':sequenceRed==4}>B</td>
+                                    <td v-bind:class={'active':sequenceBlue==4}>B</td>
+                                    <td v-bind:class={'active':sequenceBlack==4}>B</td>
+                                </tr>
+                                <tr>
+                                    <td v-bind:class={'active':sequenceRed==5}>A, C</td>
+                                    <td v-bind:class={'active':sequenceBlue==5}>B, C</td>
+                                    <td v-bind:class={'active':sequenceBlack==5}>B, C</td>
+                                </tr>
+                                <tr>
+                                    <td v-bind:class={'active':sequenceRed==6}>A, B, C</td>
+                                    <td v-bind:class={'active':sequenceBlue==6}>C</td>
+                                    <td v-bind:class={'active':sequenceBlack==6}>A, B</td>
+                                </tr>
+                                <tr>
+                                    <td v-bind:class={'active':sequenceRed==7}>A, B</td>
+                                    <td v-bind:class={'active':sequenceBlue==7}>A, C</td>
+                                    <td v-bind:class={'active':sequenceBlack==7}>C</td>
+                                </tr>
+                                <tr>
+                                    <td v-bind:class={'active':sequenceRed==8}>B</td>
+                                    <td v-bind:class={'active':sequenceBlue==8}>A</td>
+                                    <td v-bind:class={'active':sequenceBlack==8}>C</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+    
+    <script type="text/javascript">
+
+        var passVue = new Vue({
+            el:'.app',
+            data:{
+            	wires: ['white', 'red', 'blue', 'redblue'],
+            	currentWire:0,
+                batteries: 0,
+                parallel : false,
+                vowel: false,
+                evenSerial: false,
+                light: false,
+                star: false,
+                sequenceRed: 0,
+                sequenceBlue: 0,
+                sequenceBlack: 0,
+                letterHolder:['','','','',''],
+                allWords:[
+                "about", "after", "again", "below", "could", "every",
+                "first", "found", "great", "house", "large", "learn",
+                "never", "other", "place", "plant", "point", "right",
+                "small", "sound", "spell", "still", "study", "their",
+                "there", "these", "thing", "think", "three", "water",
+                "where", "which", "world", "would", "write"]
+            },
+            computed:{
+                possibleWords: function(){
+                    var solutions = [];
+
+                    for(var i = 0 ; i<this.allWords.length ; i++){
+                        var word = this.allWords[i];
+                        if(wordWorks(word, this.letterHolder)){
+                            solutions.push(word);
+                        }
+                    }
+                    return solutions;
+                },
+                wireCut: function(){
+                    switch(this.currentWire){
+                        case 0: //white
+                        if(!this.light){
+                            return true;
+                        }
+                        if(this.star){
+                            return this.batteries>=2;
+                        }
+                        return false;
+                        break;
+
+                        case 1: //red
+                        if(!this.light){
+                            if(!this.star){
+                                return this.evenSerial;
+                            }
+                            return true;
+                        }else{
+                            return this.batteries>=2;
+                        }
+                        break;
+
+                        case 2: //blue
+                        if(!this.light){
+                            if(!this.star){
+                                return this.evenSerial;
+                            }
+                            return false;
+                        }else{
+                            return this.parallel;
+                        }
+                        break;
+
+                        case 3: //red blue
+                        if(!this.star){
+                            return this.evenSerial;
+                        }else{
+                            if(this.light){
+                                return false;
+                            }
+                            return this.parallel;
+                        }
+                        break;
+                    }
+                }
+            },
+            methods:{
+                changeEvenSerial: function(){
+                    this.evenSerial = !this.evenSerial;
+                },
+                changeSerialVowel: function(){
+                    this.vowel = !this.vowel;
+                },
+                changeParallel: function(){
+                    this.parallel = !this.parallel;
+                },
+                setBatteries: function(amount){
+                    this.batteries = amount;
+                },
+                clearPassword: function(){
+                    this.letterHolder = ['','','','',''];
+                },
+                changeLight: function(){
+                  this.light = !this.light;
+                },
+                changeWire: function(){
+                    this.currentWire++;
+                    if(this.currentWire > (this.wires.length-1)){
+                        this.currentWire = 0;
+                    }
+                },
+                changeStar: function(){
+                    this.star = !this.star;
+                },
+                addSequenceRed: function(){
+                    this.sequenceRed++;
+                },
+                addSequenceBlue: function(){
+                    this.sequenceBlue++;
+                },
+                addSequenceBlack: function(){
+                    this.sequenceBlack++;
+                },
+                clearSequence: function(){
+                    this.sequenceRed = 0;
+                    this.sequenceBlue = 0;
+                    this.sequenceBlack = 0;
+                }
+            }
+        });
+
+        function wordWorks(word, letters){
+            for(var o = 0; o<letters.length; o++){
+                if(letters[o].length != 0){
+                    if(letters[o].indexOf(word.charAt(o)) <= -1){
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+.app{
+    .bomb-info{
+        margin-top: 15px;
+        margin-bottom: 15px;
+        padding: 5px;
+        outline: 1px dotted black;
+        width: 100%;
+        .even-serial{
+            .even-setting{
+                background-repeat: no-repeat;
+                height: 60px;
+                width: 100%;
+                background-image: url("../images/evenserial-off.png");
+                &.active{
+                    background-image: url("../images/evenserial-on.png");
+                }
+            }
+        }
+        .serial-vowel{
+            .vowel-setting{
+                background-repeat: no-repeat;
+                height: 60px;
+                width: 100%;
+                background-image: url("../images/vowel-off.png");
+                &.active{
+                    background-image: url("../images/vowel-on.png");
+                }
+            }
+        }
+        .parallel{
+            .parallel-setting{
+                background-repeat: no-repeat;
+                height: 40px;
+                width: 100%;
+                background-image: url("../images/parallelport-off.png");
+                &.active{
+                    background-image: url("../images/parallelport-on.png");
+                }
+            }
+        }
+        .batteries{
+            .battery-button{
+                width: 45%;
+                height: 40px;
+                margin: 5px;
+            }
+        }
+    }
+    .password {
+        outline: 1px dotted blue;
+        padding: 5px;
+        .inputs input{
+            display: block;
+            padding: 10px;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+        .output{
+            .header{
+                font-weight: 500;
+                font-size: 30px;
+            }
+            ul{
+                padding: 0;
+                height: 150px;
+                li {
+                    list-style: none;
+                    float: left;
+                    padding-right: 25px;
+                }
+            }
+        } 
+    }
+    .complicated-wires{
+        outline: 1px dotted red;
+        padding: 5px;
+        .inputs{
+            >div{
+                height: 40px;
+                width: 40px;
+                background-repeat: no-repeat;
+            }
+            .light{
+                height: 62px;
+                width: 65px;
+                background-image: url("../images/light-off.png");
+                &.active{
+                    background-image: url("../images/light-on.png");
+                }
+            }
+            .wire{
+                height: 100px;
+                width: 55px;
+                &.white{
+                    background-image: url("../images/wire-white.png");
+                }
+                &.red{
+                    background-image: url("../images/wire-red.png");
+                }
+                &.blue{
+                    background-image: url("../images/wire-blue.png");
+                }
+                &.redblue{
+                    background-image: url("../images/wire-redblue.png");
+                }
+            }
+            .star{
+                outline: 1px solid black;
+                height: 69px;
+                width: 72px;
+                background-image: url("../images/star-off.png");
+                &.active{
+                    outline: none;
+                    background-image: url("../images/star-on.png");
+                }
+            }
+        }
+        .output{
+            >div{
+                font-size: 34px;
+                font-weight: 600;
+            }
+        }
+    }
+    .sequence{
+        outline: 1px dotted green;
+        padding: 5px;
+        table{
+            thead{
+                button{
+                    width: 100%;
+                }
+            }
+            tbody{
+                td.active{
+                    background-color: green;
+                    color: white;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}
